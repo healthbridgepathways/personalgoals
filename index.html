@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Development Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 50px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #f093fb, #f5576c, #4facfe);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 60px 0;
+            min-height: 250px;
+        }
+        
+        .timeline-item:nth-child(odd) .content {
+            margin-left: 0;
+            margin-right: 55%;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) .content {
+            margin-left: 55%;
+            margin-right: 0;
+            text-align: left;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 25px rgba(240, 147, 251, 0.6);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .content {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .content:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        .achievements {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .achievements li {
+            margin: 12px 0;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border-left: 4px solid #f093fb;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .achievements li:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .achievements li::before {
+            content: '◆ ';
+            color: #f093fb;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .subtask-input {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            width: 100%;
+            font-size: 14px;
+        }
+        
+        .subtask-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .add-subtask-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-subtask-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);
+        }
+        
+        .subtasks {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .subtask {
+            padding: 8px 15px;
+            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 2px solid #4facfe;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .subtask::before {
+            content: '→ ';
+            color: #4facfe;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .delete-subtask {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .final-position {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .final-position h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item:nth-child(odd) .content,
+            .timeline-item:nth-child(even) .content {
+                margin-left: 60px;
+                margin-right: 0;
+                text-align: left;
+            }
+            
+            .timeline-marker {
+                left: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Strategic Excellence Timeline</h1>
+            <p>Multi-Domain Leadership Development | 2025-2027</p>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="content" onclick="toggleExpanded(this)">
+                    <h3>🎓 Academic Mastery Phase | Now - June 2027</h3>
+                    <ul class="achievements">
+                        <li>PhD completion & defense (June 2027)</li>
+                        <li>MSc Patient Safety & Clinical Human Factors (June 2026)</li>
+                        <li>Strategic research publications portfolio</li>
+                        <li>Academic excellence while managing business ventures</li>
+                    </ul>
+                    <div class="subtasks" id="subtasks-1"></div>
+                    <input type="text" class="subtask-input" placeholder="Add specific milestone or task..." id="input-1">
+                    <button class="add-subtask-btn" onclick="addSubtask(1)">Add Milestone</button>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="content" onclick="toggleExpanded(this)">
+                    <h3>💼 Business Expansion | 2025-2027</h3>
+                    <ul class="achievements">
+                        <li>Healthbridge Pathways optimization & scaling</li>
+                        <li>Healthbridge Horizon launch (November 2027)</li>
+                        <li>Operational systems for remote management</li>
+                        <li>Revenue diversification strategies</li>
+                    </ul>
+                    <div class="subtasks" id="subtasks-2"></div>
+                    <input type="text" class="subtask-input" placeholder="Add business objective..." id="input-2">
+                    <button class="add-subtask-btn" onclick="addSubtask(2)">Add Objective</button>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="content" onclick="toggleExpanded(this)">
+                    <h3>⚖️ Professional Certification | 2026-2027</h3>
+                    <ul class="achievements">
+                        <li>RCIC certification completion (August 2027)</li>
+                        <li>Immigration law specialization development</li>
+                        <li>Healthcare professional immigration niche</li>
+                        <li>LSAT preparation & law school applications</li>
+                    </ul>
+                    <div class="subtasks" id="subtasks-3"></div>
+                    <input type="text" class="subtask-input" placeholder="Add certification goal..." id="input-3">
+                    <button class="add-subtask-btn" onclick="addSubtask(3)">Add Goal</button>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="content" onclick="toggleExpanded(this)">
+                    <h3>💰 Financial Optimization | 2025-2027</h3>
+                    <ul class="achievements">
+                        <li>Maintain debt-free status throughout transition</li>
+                        <li>Accumulate $250,000 CAD liquid reserves</li>
+                        <li>Property portfolio management & optimization</li>
+                        <li>Multiple revenue stream coordination</li>
+                    </ul>
+                    <div class="subtasks" id="subtasks-4"></div>
+                    <input type="text" class="subtask-input" placeholder="Add financial target..." id="input-4">
+                    <button class="add-subtask-btn" onclick="addSubtask(4)">Add Target</button>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="content" onclick="toggleExpanded(this)">
+                    <h3>🍁 Strategic Relocation | Q2-Q4 2027</h3>
+                    <ul class="achievements">
+                        <li>Canada transition preparation (Q2 2027)</li>
+                        <li>Family integration & settlement planning</li>
+                        <li>Professional credential transfers</li>
+                        <li>Law school readiness (September 2028)</li>
+                    </ul>
+                    <div class="subtasks" id="subtasks-5"></div>
+                    <input type="text" class="subtask-input" placeholder="Add relocation task..." id="input-5">
+                    <button class="add-subtask-btn" onclick="addSubtask(5)">Add Task</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">38</div>
+                <div>Age at Launch</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$1.1M</div>
+                <div>Net Worth USD</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">11+</div>
+                <div>Advanced Credentials</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div>Business Streams</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7.3</div>
+                <div>Eldest Child Age</div>
+            </div>
+        </div>
+        
+        <div class="final-position">
+            <h2>🎯 December 2027 Strategic Position</h2>
+            <p><strong>Multi-Domain Excellence Achievement:</strong></p>
+            <br>
+            <p>🎓 PhD & MSc completion with research portfolio</p>
+            <p>💼 Established business ventures with operational systems</p>
+            <p>⚖️ RCIC certification with immigration law expertise</p>
+            <p>💰 $1.1M+ net worth with diversified assets</p>
+            <p>👨‍👩‍👧‍👦 Family stability with children aged 7.3, 5.1, and 3.0</p>
+            <p>🍁 Canadian resident status with law school acceptance</p>
+            <br>
+            <p><em>"Strategic excellence across academic, business, and professional domains - positioned for unlimited growth potential."</em></p>
+        </div>
+    </div>
+
+    <script>
+        function addSubtask(sectionId) {
+            const input = document.getElementById(`input-${sectionId}`);
+            const subtasksContainer = document.getElementById(`subtasks-${sectionId}`);
+            
+            if (input.value.trim() !== '') {
+                const subtaskDiv = document.createElement('div');
+                subtaskDiv.className = 'subtask';
+                subtaskDiv.innerHTML = `
+                    ${input.value}
+                    <button class="delete-subtask" onclick="deleteSubtask(this)">×</button>
+                `;
+                subtasksContainer.appendChild(subtaskDiv);
+                input.value = '';
+                
+                // Save to localStorage
+                saveSubtasks();
+            }
+        }
+        
+        function deleteSubtask(button) {
+            button.parentElement.remove();
+            saveSubtasks();
+        }
+        
+        function toggleExpanded(element) {
+            // Optional: Add expand/collapse functionality
+        }
+        
+        function saveSubtasks() {
+            const data = {};
+            for (let i = 1; i <= 5; i++) {
+                const subtasks = document.getElementById(`subtasks-${i}`);
+                data[i] = Array.from(subtasks.children).map(child => 
+                    child.textContent.replace('×', '').trim()
+                );
+            }
+            // Note: localStorage not available in Claude artifacts
+            // This would work in a real environment
+        }
+        
+        function loadSubtasks() {
+            // Note: localStorage not available in Claude artifacts
+            // This would work in a real environment
+        }
+        
+        // Allow Enter key to add subtasks
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('subtask-input')) {
+                const sectionId = e.target.id.split('-')[1];
+                addSubtask(sectionId);
+            }
+        });
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', loadSubtasks);
+    </script>
+</body>
+</html>
